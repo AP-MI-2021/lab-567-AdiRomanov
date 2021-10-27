@@ -1,5 +1,4 @@
-from Domain.date_proprietar import get_nr_ap, get_data, get_tip, creeaza_cheltuiala, get_suma
-
+from Domain.date_proprietar import get_nr_ap, get_data, get_tip, creeaza_cheltuiala, get_suma, get_id
 
 
 def check_data(data):
@@ -20,7 +19,7 @@ def check_data(data):
         return False
     if 1 > lst[1] or lst[1] > 12:
         return False
-    if 2021 > lst[2] or lst[2] > 2021:
+    if 2000 > lst[2] or lst[2] > 2030:
         return False
 
     return True
@@ -74,17 +73,18 @@ def sunt_egale_cheltuielile(c1, c2):
     :return: True daca cheltuiala1 si cheltuiala2 au acelasi nr de apartament, data si tip
              False in caz contrar
     """
-    if get_nr_ap(c1) == get_nr_ap(c2) and get_data(c1) == get_data(c2) and get_tip(c1) == get_tip(c2):
+    if get_id(c1) == get_id(c2):
         return True
 
     return False
 
 
-def srv_add_to_list(list, nr_ap, suma, data, tip):
+def srv_add_to_list(list, id, nr_ap, suma, data, tip):
     """
     Functie care creeaza o cheltuiala pe baza nr_ap, suma, data si tip
     Valideaza aceasta cheltuiala si daca este valida o adauga in lista list de cheltuieli unica /
     doar daca nu exista deja acea cheltuiala in lista
+    :param id: Id-ul cheltuielii
     :param list: lista de cheltuieli unice prin nr_ap, data si tip
     :param nr_ap: numarul apartamentului
     :param suma: suma
@@ -93,6 +93,50 @@ def srv_add_to_list(list, nr_ap, suma, data, tip):
     :return: - , daca totul se desfasoara cu succes
     :raises: Exception cu textul ...
     """
-    cheltuiala = creeaza_cheltuiala(nr_ap, suma, data, tip)
+    cheltuiala = creeaza_cheltuiala(id, nr_ap, suma, data, tip)
     valideaza_cheltuiala(cheltuiala)
     add_cheltuiala_to_list(list, cheltuiala)
+
+
+def get_cheltuiala_by_id(id: str, lista):
+    """
+    Selecteaza chletuiala cu id-ul dat dintr-o lista
+    :param id: string
+    :param lista: lista de cheltuieli
+    :return: cheltuiala cu id-ul dat din lista sau None, daca nu exista
+    """
+    for cheltuiala in lista:
+        if get_id(cheltuiala) == id:
+            return cheltuiala
+    return None
+
+
+def sterge_cheltuiala(id, lista):
+    """
+    Sterge o cheltuiala din lista
+    :param id: id_ul cheltuielii
+    :param lista: lista de cheltuieli
+    :return: lista rezultata dupa stergerea cheltuielii dorite
+    """
+    return [cheltuiala for cheltuiala in lista if get_id(cheltuiala) != id]
+
+
+def modifica_cheltuiala(lista, id, nr_ap, suma, data, tip):
+    """
+    Modifica o cheltuiala dupa id
+    :param list: Lista de cheltuieli
+    :param id: Id-ul cheltuielii
+    :param nr_ap: Nr apartamentului
+    :param suma: Valoarea facturii
+    :param data: Data emiterii
+    :param tip: Tipul facturii
+    :return: Cheltuiala dupa modificarile aferente
+    """
+    lista_noua = []
+    for cheltuiala in lista:
+        if get_id(cheltuiala) == id:
+            cheltuiala_noua = creeaza_cheltuiala(id, nr_ap, suma, data, tip)
+            lista_noua.append(cheltuiala_noua)
+        else:
+            lista_noua.append(cheltuiala)
+    return lista_noua

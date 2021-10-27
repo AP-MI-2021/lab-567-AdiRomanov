@@ -1,20 +1,28 @@
-
-
-
-def creeaza_cheltuiala(nr_ap: int, suma: float, data: str, tip: str):
+def creeaza_cheltuiala(id: str, nr_ap: int, suma: float, data: str, tip: str):
     """
     Creeaza o noua cheltuiala.
+    :param id: Id-ul cheltuielii
     :param nr_ap: Numarul apartamentului
     :param suma:  Suma respectiva
     :param data:  Data la care este adaugata cheltuiala
     :param tip:   Tipul cheltuielii
     :return:      O cheltuiala
     """
-    return {"nr_ap": nr_ap,
+    return {"id_ul": id,
+            "nr_ap": nr_ap,
             "suma": suma,
             "data": data,
             "tip": tip
             }
+
+
+def get_id(cheltuiala):
+    """
+    Getter pentru id-ul cheltuielii
+    :param cheltuiala: Id-ul
+    :return: Id-ul cheltuielii
+    """
+    return cheltuiala["id_ul"]
 
 
 def get_nr_ap(cheltuiala):
@@ -59,4 +67,8 @@ def to_str_cheltuiala(cheltuiala):
     :param cheltuiala: cheltuiala
     :output: cheltuiala sub forma de string
     """
-    return "Apartamentul "+str(cheltuiala["nr_ap"])+": "+str(cheltuiala["suma"])+"-RON ("+str(cheltuiala["data"])+") <"+str(cheltuiala["tip"])+">"
+    return "Id_Factura: " + str(cheltuiala["id_ul"]) + " | " + \
+           "Apartamentul " + str(cheltuiala["nr_ap"]) + \
+           ": " + str(cheltuiala["suma"]) + \
+           "-RON (" + str(cheltuiala["data"]) + \
+           ") <" + str(cheltuiala["tip"]) + ">"
