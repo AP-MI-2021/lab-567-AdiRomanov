@@ -1,11 +1,12 @@
 from Domain.date_proprietar import to_str_cheltuiala
-from Logic.general_logic import srv_add_to_list, sterge_cheltuiala, modifica_cheltuiala
+from Logic.general_logic import srv_add_to_list, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt
 
 
 def show_menu():
     print("1. Adaugati o cheltuiala in lista: ")
     print("2. Stergeti o cheltuiala din lista: ")
     print("3. Modificati o cheltuiala din lista: ")
+    print("4. Șterge toate cheltuielile pentru un apartament dat. ")
     print("a. Afisare lista cheltuieli: ")
     print("x. Iesire - exit")
     print("\n")
@@ -52,6 +53,10 @@ def ui_modifica_cheltuiala(list):
     return modifica_cheltuiala(list, id, nr_ap, suma, data, tip)
 
 
+def ui_sterge_toate_chelt(list):
+    nr_ap = int(input("Introduceti numarul apartamentului pentru care doriti sa stergeti toate cheltuielile: "))
+    return sterge_toate_chelt(nr_ap, list)
+
 def ui_print_cheltuieli(list):
     for cheltuiala in list:
         print(to_str_cheltuiala(cheltuiala))
@@ -80,6 +85,11 @@ def run():
         elif cmd == "3":
             try:
                 list = ui_modifica_cheltuiala(list)
+            except Exception as ex:
+                print(ex)
+        elif cmd == "4":
+            try:
+                list = ui_sterge_toate_chelt(list)
             except Exception as ex:
                 print(ex)
         elif cmd == 'a':
