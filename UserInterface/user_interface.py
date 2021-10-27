@@ -57,6 +57,7 @@ def ui_sterge_toate_chelt(list):
     nr_ap = int(input("Introduceti numarul apartamentului pentru care doriti sa stergeti toate cheltuielile: "))
     return sterge_toate_chelt(nr_ap, list)
 
+
 def ui_print_cheltuieli(list):
     for cheltuiala in list:
         print(to_str_cheltuiala(cheltuiala))

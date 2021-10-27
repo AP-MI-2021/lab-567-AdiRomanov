@@ -124,7 +124,7 @@ def sterge_cheltuiala(id, lista):
 def modifica_cheltuiala(lista, id, nr_ap, suma, data, tip):
     """
     Modifica o cheltuiala dupa id
-    :param list: Lista de cheltuieli
+    :param lista: Lista de cheltuieli
     :param id: Id-ul cheltuielii
     :param nr_ap: Nr apartamentului
     :param suma: Valoarea facturii
@@ -140,15 +140,16 @@ def modifica_cheltuiala(lista, id, nr_ap, suma, data, tip):
         else:
             lista_noua.append(cheltuiala)
     return lista_noua
-    #need test
+    # need test
 
 
 def sterge_toate_chelt(nr_ap, lista):
     """
     Sterge toate cheltuielile pentru un apartament dat
+    :param nr_ap:
     :param lista: lista de cheltuieli
     :return: lista modificata
     """
     return [cheltuiala for cheltuiala in lista if get_nr_ap(cheltuiala) != nr_ap]
 
-    #need test
+    # need test

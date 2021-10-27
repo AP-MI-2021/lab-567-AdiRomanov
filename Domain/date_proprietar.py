@@ -1,4 +1,4 @@
-def creeaza_cheltuiala(id: str, nr_ap: int, suma: float, data: str, tip: str):
+def creeaza_cheltuiala(id: str, nr_ap: int, suma: float, data: str, tip: str) -> tuple:
     """
     Creeaza o noua cheltuiala.
     :param id: Id-ul cheltuielii
@@ -8,12 +8,7 @@ def creeaza_cheltuiala(id: str, nr_ap: int, suma: float, data: str, tip: str):
     :param tip:   Tipul cheltuielii
     :return:      O cheltuiala
     """
-    return {"id_ul": id,
-            "nr_ap": nr_ap,
-            "suma": suma,
-            "data": data,
-            "tip": tip
-            }
+    return id, nr_ap, suma, data, tip
 
 
 def get_id(cheltuiala):
@@ -22,7 +17,7 @@ def get_id(cheltuiala):
     :param cheltuiala: Id-ul
     :return: Id-ul cheltuielii
     """
-    return cheltuiala["id_ul"]
+    return cheltuiala[0]
 
 
 def get_nr_ap(cheltuiala):
@@ -31,7 +26,7 @@ def get_nr_ap(cheltuiala):
     :param cheltuiala: Numarul apartamentului
     :return: Numarul apartamentului din cheltuiala
     """
-    return cheltuiala["nr_ap"]
+    return cheltuiala[1]
 
 
 def get_suma(cheltuiala):
@@ -40,7 +35,7 @@ def get_suma(cheltuiala):
     :param cheltuiala: Suma
     :return: Valoarea sumei din cheltuiala
     """
-    return cheltuiala["suma"]
+    return cheltuiala[2]
 
 
 def get_data(cheltuiala):
@@ -49,7 +44,7 @@ def get_data(cheltuiala):
     :param cheltuiala: Data respectiva
     :return: Data din cheltuiala
     """
-    return cheltuiala["data"]
+    return cheltuiala[3]
 
 
 def get_tip(cheltuiala):
@@ -58,7 +53,7 @@ def get_tip(cheltuiala):
     :param cheltuiala: Tipul respectiv
     :return: Tipul din cheltuiala
     """
-    return cheltuiala["tip"]
+    return cheltuiala[4]
 
 
 def to_str_cheltuiala(cheltuiala):
@@ -67,8 +62,8 @@ def to_str_cheltuiala(cheltuiala):
     :param cheltuiala: cheltuiala
     :output: cheltuiala sub forma de string
     """
-    return "Id_Factura: " + str(cheltuiala["id_ul"]) + " | " + \
-           "Apartamentul " + str(cheltuiala["nr_ap"]) + \
-           ": " + str(cheltuiala["suma"]) + \
-           "-RON (" + str(cheltuiala["data"]) + \
-           ") <" + str(cheltuiala["tip"]) + ">"
+    return "Id_Factura: " + str(cheltuiala[0]) + " | " + \
+           "Apartamentul " + str(cheltuiala[1]) + \
+           ": " + str(cheltuiala[2]) + \
+           "-RON (" + str(cheltuiala[3]) + \
+           ") <" + str(cheltuiala[4]) + ">"
