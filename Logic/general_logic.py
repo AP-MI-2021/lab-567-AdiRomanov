@@ -140,7 +140,7 @@ def modifica_cheltuiala(lista, id, nr_ap, suma, data, tip):
         else:
             lista_noua.append(cheltuiala)
     return lista_noua
-    # need test
+
 
 
 def sterge_toate_chelt(nr_ap, lista):
@@ -152,4 +152,3 @@ def sterge_toate_chelt(nr_ap, lista):
     """
     return [cheltuiala for cheltuiala in lista if get_nr_ap(cheltuiala) != nr_ap]
 
-    # need test

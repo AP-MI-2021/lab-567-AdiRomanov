@@ -1,6 +1,6 @@
 from Domain.date_proprietar import creeaza_cheltuiala, get_nr_ap, get_suma, get_data, get_tip, get_id
 from Logic.general_logic import check_data, add_cheltuiala_to_list, srv_add_to_list, valideaza_cheltuiala, \
-    get_cheltuiala_by_id, sterge_cheltuiala
+    get_cheltuiala_by_id, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt
 
 
 def test_creeaza_cheltuiala():
@@ -59,9 +59,25 @@ def test_check_data():
 
 
 def test_add_cheltuiala_to_list():
-    """
-    +test pentru functia get_cheltuiala_by_id( , ):
-    """
+    list = []
+    cheltuiala = creeaza_cheltuiala("1", 54, 400, "10.10.2021", "intretinere")
+    assert len(list) == 0
+    add_cheltuiala_to_list(list, cheltuiala)
+    assert len(list) == 1
+    assert get_id(list[0]) == get_id(cheltuiala)
+    assert get_nr_ap(list[0]) == get_nr_ap(cheltuiala)
+    assert abs(get_suma(list[0]) - get_suma(cheltuiala)) < 0.00001
+    assert get_data(list[0]) == get_data(cheltuiala)
+    assert get_tip(list[0]) == get_tip(cheltuiala)
+    alta_cheltuiala = creeaza_cheltuiala("1", 54, 300, "10.10.2021", "intretinere")
+    try:
+        add_cheltuiala_to_list(list, alta_cheltuiala)
+        assert False
+    except Exception as ex:
+        assert str(ex) == "Cheltuiala existenta!\n"
+
+
+def test_get_cheltuiala_by_id():
     list = []
     cheltuiala = creeaza_cheltuiala("1", 54, 400, "10.10.2021", "intretinere")
     assert len(list) == 0
@@ -72,12 +88,6 @@ def test_add_cheltuiala_to_list():
     assert abs(get_suma(get_cheltuiala_by_id("1", list)) - get_suma(cheltuiala)) < 0.00001
     assert get_data(get_cheltuiala_by_id("1", list)) == get_data(cheltuiala)
     assert get_tip(get_cheltuiala_by_id("1", list)) == get_tip(cheltuiala)
-    alta_cheltuiala = creeaza_cheltuiala("1", 54, 300, "10.10.2021", "intretinere")
-    try:
-        add_cheltuiala_to_list(list, alta_cheltuiala)
-        assert False
-    except Exception as ex:
-        assert str(ex) == "Cheltuiala existenta!\n"
 
 
 def test_srv_add_to_list():
@@ -113,6 +123,35 @@ def test_sterge_cheltuiala():
     assert get_cheltuiala_by_id("2", list) is not None
 
 
+def test_modifica_cheltuiala():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "intretinere")
+    list = modifica_cheltuiala(list, "2", 58, 450, "10.11.2021", "canal")
+    assert get_id(get_cheltuiala_by_id("2", list)) == "2"
+    assert get_nr_ap(get_cheltuiala_by_id("2", list)) == 58
+    assert get_suma(get_cheltuiala_by_id("2", list)) == 450
+    assert get_data(get_cheltuiala_by_id("2", list)) == "10.11.2021"
+    assert get_tip(get_cheltuiala_by_id("2", list)) == "canal"
+
+
+def test_sterge_toate_chelt():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "3", 57, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "5", 58, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "4", 57, 400, "10.10.2021", "intretinere")
+    list = sterge_toate_chelt(57, list)
+    assert get_cheltuiala_by_id("2", list) is None
+    assert get_cheltuiala_by_id("3", list) is None
+    assert get_cheltuiala_by_id("4", list) is None
+
+
+
+
 def run_teste():
     test_creeaza_cheltuiala()
     test_valideaza_cheltuiala()
@@ -120,3 +159,6 @@ def run_teste():
     test_add_cheltuiala_to_list()
     test_srv_add_to_list()
     test_sterge_cheltuiala()
+    test_get_cheltuiala_by_id()
+    test_modifica_cheltuiala()
+    test_sterge_toate_chelt()
