@@ -1,6 +1,7 @@
 from Domain.date_proprietar import creeaza_cheltuiala, get_nr_ap, get_suma, get_data, get_tip, get_id
 from Logic.general_logic import check_data, add_cheltuiala_to_list, srv_add_to_list, valideaza_cheltuiala, \
-    get_cheltuiala_by_id, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt
+    get_cheltuiala_by_id, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt, aduna_valoare, cmm_cheltuiala, \
+    ord_desc
 
 
 def test_creeaza_cheltuiala():
@@ -150,6 +151,92 @@ def test_sterge_toate_chelt():
     assert get_cheltuiala_by_id("4", list) is None
 
 
+def test_aduna_valoare():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "intretinere")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "intretinere")
+    srv_add_to_list(list, "5", 57, 350, "10.10.2021", "intretinere")
+
+    list = aduna_valoare(list, "10.10.2021", 20)
+    assert get_suma(get_cheltuiala_by_id("1", list)) == 320
+    assert get_suma(get_cheltuiala_by_id("2", list)) == 420
+    assert get_suma(get_cheltuiala_by_id("3", list)) == 400
+    assert get_suma(get_cheltuiala_by_id("4", list)) == 400
+    assert get_suma(get_cheltuiala_by_id("5", list)) == 370
+
+
+def test_cmm_cheltuiala():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "intretinere")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "intretinere")
+    srv_add_to_list(list, "5", 57, 350, "10.10.2021", "intretinere")
+    rez = cmm_cheltuiala(list)
+    assert rez[0] == 400
+    assert rez[1] == 0
+    assert rez[2] == 0
+
+    list = []
+
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "canal")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "intretinere")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "alte cheltuieli")
+    srv_add_to_list(list, "5", 57, 350, "10.10.2021", "intretinere")
+    rez = cmm_cheltuiala(list)
+    assert rez[0] == 400
+    assert rez[1] == 400
+    assert rez[2] == 400
+
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "canal")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "canal")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "canal")
+    srv_add_to_list(list, "5", 57, 350, "10.10.2021", "canal")
+    rez = cmm_cheltuiala(list)
+    assert rez[0] == 300
+    assert rez[1] == 400
+    assert rez[2] == 0
+
+
+def test_ord_desc():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "canal")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "canal")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "canal")
+    srv_add_to_list(list, "5", 57, 350, "10.10.2021", "canal")
+
+    list = ord_desc(list)
+    assert get_suma(list[0]) == 400
+    assert get_suma(list[1]) == 400
+    assert get_suma(list[2]) == 400
+    assert get_suma(list[3]) == 350
+    assert get_suma(list[4]) == 300
+
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 100, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 200, "10.10.2021", "canal")
+    srv_add_to_list(list, "3", 57, 300, "10.12.2021", "canal")
+    srv_add_to_list(list, "4", 58, 400, "10.11.2021", "canal")
+    srv_add_to_list(list, "5", 57, 500, "10.10.2021", "canal")
+
+    list = ord_desc(list)
+    assert get_suma(list[0]) == 500
+    assert get_suma(list[1]) == 400
+    assert get_suma(list[2]) == 300
+    assert get_suma(list[3]) == 200
+    assert get_suma(list[4]) == 100
 
 
 def run_teste():
@@ -162,3 +249,6 @@ def run_teste():
     test_get_cheltuiala_by_id()
     test_modifica_cheltuiala()
     test_sterge_toate_chelt()
+    test_aduna_valoare()
+    test_cmm_cheltuiala()
+    test_ord_desc()

@@ -142,7 +142,6 @@ def modifica_cheltuiala(lista, id, nr_ap, suma, data, tip):
     return lista_noua
 
 
-
 def sterge_toate_chelt(nr_ap, lista):
     """
     Sterge toate cheltuielile pentru un apartament dat
@@ -151,4 +150,72 @@ def sterge_toate_chelt(nr_ap, lista):
     :return: lista modificata
     """
     return [cheltuiala for cheltuiala in lista if get_nr_ap(cheltuiala) != nr_ap]
+
+
+def aduna_valoare(lista, data, val):
+    """
+    Functia aduna o valoare la toate cheltuielile dintr-o dată citită.
+    :param val: valoarea dorita
+    :param lista: lista de cheltuieli
+    :param data: data pentru care se aduna o suma la cheltuiala
+    :return: noua lista de cheltuieli
+    """
+    lista_noua = []
+    for cheltuiala in lista:
+        if get_data(cheltuiala) == data:
+            id = get_id(cheltuiala)
+            nr_ap = get_nr_ap(cheltuiala)
+            suma = get_suma(cheltuiala)
+            suma += val
+            data = get_data(cheltuiala)
+            tip = get_tip(cheltuiala)
+            cheltuiala_noua = creeaza_cheltuiala(id, nr_ap, suma, data, tip)
+            lista_noua.append(cheltuiala_noua)
+        else:
+            lista_noua.append(cheltuiala)
+    return lista_noua
+
+
+def cmm_cheltuiala(list) -> tuple:
+    """
+    Determina cea mai mare cheltuiala pentru fiecare tip
+    :param list: lista de cheltuieli
+    :return: cele mai mari cheltuieli pentru fiecare tip (intretinere, canal si alte cheltuieli)
+    """
+    max_i = 0
+    max_c = 0
+    max_ac = 0
+
+    for cheltuiala in list:
+        suma = get_suma(cheltuiala)
+        tip = get_tip(cheltuiala)
+        if tip == 'intretinere':
+            if suma > max_i:
+                max_i = suma
+        elif tip == 'canal':
+            if suma > max_c:
+                max_c = suma
+        elif tip == 'alte cheltuieli':
+            if suma > max_ac:
+                max_ac = suma
+    return max_i, max_c, max_ac
+
+
+def ord_desc(list):
+    n = len(list)
+
+    # Traverse through all array elements
+    for i in range(n - 1):
+        # range(n) also work but outer loop will repeat one time more than needed.
+
+        # Last i elements are already in place
+        for j in range(0, n - i - 1):
+
+            # traverse the array from 0 to n-i-1
+            # Swap if the element found is greater
+            # than the next element
+            if get_suma(list[j]) < get_suma(list[j + 1]):
+                 list[j], list[j + 1] = list[j + 1], list[j]
+    return list
+
 

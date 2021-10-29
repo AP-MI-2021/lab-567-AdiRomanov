@@ -1,12 +1,16 @@
 from Domain.date_proprietar import to_str_cheltuiala
-from Logic.general_logic import srv_add_to_list, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt
+from Logic.general_logic import srv_add_to_list, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt, \
+    aduna_valoare, cmm_cheltuiala, ord_desc
 
 
 def show_menu():
-    print("1. Adaugati o cheltuiala in lista: ")
-    print("2. Stergeti o cheltuiala din lista: ")
-    print("3. Modificati o cheltuiala din lista: ")
+    print("1. Adaugati o cheltuiala in lista. ")
+    print("2. Stergeti o cheltuiala din lista. ")
+    print("3. Modificati o cheltuiala din lista. ")
     print("4. Șterge toate cheltuielile pentru un apartament dat. ")
+    print("5. Aduna o valoare la toate cheltuielile dintr o data citita.")
+    print("6. Afiseaza cea mai mare cheltuiala pentru fiecare tip. ")
+    print("7. Ordoneaza in ordine descrescatoare cheltuielile dupa pret. ")
     print("a. Afisare lista cheltuieli: ")
     print("x. Iesire - exit")
     print("\n")
@@ -63,6 +67,23 @@ def ui_print_cheltuieli(list):
         print(to_str_cheltuiala(cheltuiala))
 
 
+def ui_adauga_valoare(list):
+    val = float(input("Introduceti suma dorita pentru adaugare(cu zecimale daca este cazul): "))
+    data = input("Introduceti data pentru care cheltuielile vor fi schimbate: ")
+    return aduna_valoare(list, data, val)
+
+
+def ui_cmm_cheltuiala(list):
+    rez = cmm_cheltuiala(list)
+    print("Intretinere: ", rez[0])
+    print("Canal: ", rez[1])
+    print("Alte cheltuieli: ", rez[2])
+
+
+def ui_ord_desc(list):
+    return ord_desc(list)
+
+
 def run():
     list = []
     while True:
@@ -83,14 +104,26 @@ def run():
                 list = ui_sterge_cheltuiala(list)
             except Exception as ex:
                 print(ex)
-        elif cmd == "3":
+        elif cmd == '3':
             try:
                 list = ui_modifica_cheltuiala(list)
             except Exception as ex:
                 print(ex)
-        elif cmd == "4":
+        elif cmd == '4':
             try:
                 list = ui_sterge_toate_chelt(list)
+            except Exception as ex:
+                print(ex)
+        elif cmd == '5':
+            try:
+                list = ui_adauga_valoare(list)
+            except Exception as ex:
+                print(ex)
+        elif cmd == '6':
+            ui_cmm_cheltuiala(list)
+        elif cmd == '7':
+            try:
+                list = ui_ord_desc(list)
             except Exception as ex:
                 print(ex)
         elif cmd == 'a':
