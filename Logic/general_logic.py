@@ -215,7 +215,5 @@ def ord_desc(list):
             # Swap if the element found is greater
             # than the next element
             if get_suma(list[j]) < get_suma(list[j + 1]):
-                 list[j], list[j + 1] = list[j + 1], list[j]
+                list[j], list[j + 1] = list[j + 1], list[j]
     return list
-
-

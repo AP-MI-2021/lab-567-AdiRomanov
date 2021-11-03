@@ -1,6 +1,7 @@
 from Domain.date_proprietar import to_str_cheltuiala
 from Logic.general_logic import srv_add_to_list, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt, \
     aduna_valoare, cmm_cheltuiala, ord_desc
+from UserInterface.command_line_console import show_menu_nou, show_menu_interfata, start_nou
 
 
 def show_menu():
@@ -84,7 +85,7 @@ def ui_ord_desc(list):
     return ord_desc(list)
 
 
-def run():
+def start():
     list = []
     while True:
         show_menu()
@@ -128,5 +129,24 @@ def run():
                 print(ex)
         elif cmd == 'a':
             ui_print_cheltuieli(list)
+        else:
+            print("Optiune invalida! Reincercati!")
+
+
+def run():
+
+    while True:
+        show_menu_interfata()
+        option = input("Inroduceti optiunea: ")
+        if option == 'x':
+            print("Inchidere program...")
+            return
+        if option == "":
+            continue
+
+        if option == '1':
+            start()
+        elif option == '2':
+            start_nou()
         else:
             print("Optiune invalida! Reincercati!")
