@@ -247,7 +247,7 @@ def test_sume_lunare():
     srv_add_to_list(list, "3", 57, 400, "10.12.2021", "canal")
     assert sume_lunare(list) == {54: 300, 57: 800}
 
-
+    
 def run_teste():
     test_creeaza_cheltuiala()
     test_valideaza_cheltuiala()

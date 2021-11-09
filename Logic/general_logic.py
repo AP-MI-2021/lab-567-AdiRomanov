@@ -90,7 +90,7 @@ def srv_add_to_list(list, id, nr_ap, suma, data, tip):
     :param suma: suma
     :param data: data de emitere
     :param tip: tipul cheltuielii
-    :return: - , daca totul se desfasoara cu succes
+    :return: lista , daca totul se desfasoara cu succes
     :raises: Exception cu textul ...
     """
     cheltuiala = creeaza_cheltuiala(id, nr_ap, suma, data, tip)
@@ -221,7 +221,7 @@ def ord_desc(list):
 
 def sume_lunare(lista):
     """
-    Functia returneaza suma preturilor penru fiecare Nume
+    Functia returneaza suma preturilor pentru fiecare nume
     :param lista: lista cu rezervari
     :return: o lista cu suma preturilor pentru fiecare nume
     """
