@@ -217,3 +217,20 @@ def ord_desc(list):
             if get_suma(list[j]) < get_suma(list[j + 1]):
                 list[j], list[j + 1] = list[j + 1], list[j]
     return list
+
+
+def sume_lunare(lista):
+    """
+    Functia returneaza suma preturilor penru fiecare Nume
+    :param lista: lista cu rezervari
+    :return: o lista cu suma preturilor pentru fiecare nume
+    """
+    rezultat = {}
+    for cheltuiala in lista:
+        nr_ap = get_nr_ap(cheltuiala)
+        suma = get_suma(cheltuiala)
+        if nr_ap in rezultat:
+            rezultat[nr_ap] = rezultat[nr_ap] + suma
+        else:
+            rezultat[nr_ap] = suma
+    return rezultat

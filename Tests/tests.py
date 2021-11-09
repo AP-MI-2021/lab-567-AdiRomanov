@@ -1,7 +1,7 @@
 from Domain.date_proprietar import creeaza_cheltuiala, get_nr_ap, get_suma, get_data, get_tip, get_id
 from Logic.general_logic import check_data, add_cheltuiala_to_list, srv_add_to_list, valideaza_cheltuiala, \
     get_cheltuiala_by_id, sterge_cheltuiala, modifica_cheltuiala, sterge_toate_chelt, aduna_valoare, cmm_cheltuiala, \
-    ord_desc
+    ord_desc, sume_lunare
 
 
 def test_creeaza_cheltuiala():
@@ -239,6 +239,15 @@ def test_ord_desc():
     assert get_suma(list[4]) == 100
 
 
+def test_sume_lunare():
+    list = []
+    assert (len(list) == 0)
+    srv_add_to_list(list, "1", 54, 300, "10.10.2021", "intretinere")
+    srv_add_to_list(list, "2", 57, 400, "10.10.2021", "canal")
+    srv_add_to_list(list, "3", 57, 400, "10.12.2021", "canal")
+    assert sume_lunare(list) == {54: 300, 57: 800}
+
+
 def run_teste():
     test_creeaza_cheltuiala()
     test_valideaza_cheltuiala()
@@ -252,3 +261,4 @@ def run_teste():
     test_aduna_valoare()
     test_cmm_cheltuiala()
     test_ord_desc()
+    test_sume_lunare()
