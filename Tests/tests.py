@@ -247,7 +247,61 @@ def test_sume_lunare():
     srv_add_to_list(list, "3", 57, 400, "10.12.2021", "canal")
     assert sume_lunare(list) == {54: 300, 57: 800}
 
-    
+
+def test_undoredo():
+    redo_list = []
+    lista = []
+    undo_list = []
+
+    cheltuiala = creeaza_cheltuiala("1", 54, 300, "10.10.2021", "intretinere")
+    valideaza_cheltuiala(cheltuiala)
+
+    rezultat = lista[:]
+    undo_list.append(rezultat)
+    redo_list.clear()
+
+    srv_add_to_list(lista, "1", 54, 300, "10.10.2021", "intretinere")
+    lista = undo_list.pop()
+    assert len(lista) == 0
+
+    cheltuiala = creeaza_cheltuiala("2", 54, 300, "10.10.2021", "intretinere")
+    valideaza_cheltuiala(cheltuiala)
+
+    rezultat = lista[:]
+    undo_list.append(rezultat)
+    redo_list.clear()
+
+    srv_add_to_list(lista, "2", 54, 300, "10.10.2021", "intretinere")
+    assert len(lista) == 1
+    assert lista == [('2', 54, 300, '10.10.2021', 'intretinere')]
+
+    cheltuiala = creeaza_cheltuiala("3", 57, 400, "10.12.2021", "canal")
+    valideaza_cheltuiala(cheltuiala)
+
+    rezultat = lista[:]
+    undo_list.append(rezultat)
+    redo_list.clear()
+
+    srv_add_to_list(lista, "3", 57, 400, "10.12.2021", "canal")
+    assert len(lista) == 2
+    assert lista == [('2', 54, 300, '10.10.2021', 'intretinere'), ("3", 57, 400, "10.12.2021", "canal")]
+
+    if len(undo_list) > 0:
+        redo_list.append(lista)
+        lista = undo_list.pop()
+    if len(redo_list) > 0:
+        undo_list.append(lista)
+        lista = redo_list.pop()
+    assert len(lista) == 2
+    assert lista == [('2', 54, 300, '10.10.2021', 'intretinere'), ("3", 57, 400, "10.12.2021", "canal")]
+
+    if len(undo_list) > 0:
+        redo_list.append(lista)
+        lista = undo_list.pop()
+    assert len(lista) == 1
+    assert lista == [('2', 54, 300, '10.10.2021', 'intretinere')]
+
+
 def run_teste():
     test_creeaza_cheltuiala()
     test_valideaza_cheltuiala()
@@ -262,3 +316,4 @@ def run_teste():
     test_cmm_cheltuiala()
     test_ord_desc()
     test_sume_lunare()
+    test_undoredo()

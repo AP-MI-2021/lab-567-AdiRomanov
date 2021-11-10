@@ -8,7 +8,7 @@ Scrieți un program pentru gestionarea unei asociații de proprietari. Vor fi su
 1.4. Determinarea celei mai mari cheltuieli pentru fiecare tip de cheltuială.
 1.5. Ordonarea cheltuielilor descrescător după sumă.
 1.6. Afișarea sumelor lunare pentru fiecare apartament.
-1.7. Undo.
+1.7. Undo/Redo.
 """
 from Tests.tests import run_teste
 from UserInterface.user_interface import run
